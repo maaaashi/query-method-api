@@ -1,0 +1,16 @@
+{
+  "name": "query-method-api",
+  "scripts": {
+    "dev": "bun run --hot src/index.ts",
+    "format": "biome format --write",
+    "lint": "biome lint --write",
+    "format:lint": "biome check --write"
+  },
+  "dependencies": {
+    "hono": "^4.12.27"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.5.1",
+    "@types/bun": "latest"
+  }
+}
