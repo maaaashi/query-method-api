@@ -9,12 +9,29 @@ class User {
 
 type Users = User[];
 
+type RequestJson = {
+  query?: string;
+};
+
 export const queryUsersHandler = async (c: Context) => {
   const contentType = c.req.header("Content-Type") || "";
 
   if (!contentType.includes("application/json")) {
     return c.json({ error: "Unsupported Media Type" }, 415);
   }
+
+  const body = await c.req.text();
+
+  let bodyJson: RequestJson = {};
+
+  try {
+    bodyJson = JSON.parse(body);
+  } catch (e) {
+    console.error(e);
+    return c.json({ error: "Invalid JSON" }, 400);
+  }
+
+  console.log(bodyJson);
 
   return c.json<Users>([
     new User(1, "田中 太郎"),
