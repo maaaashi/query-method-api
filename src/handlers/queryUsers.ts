@@ -1,4 +1,5 @@
 import type { Context } from "hono";
+import * as z from "zod";
 
 class User {
   constructor(
@@ -9,9 +10,11 @@ class User {
 
 type Users = User[];
 
-type RequestJson = {
-  query?: string;
-};
+const RequestJsonSchema = z
+  .object({
+    query: z.string().optional(),
+  })
+  .strict();
 
 export const queryUsersHandler = async (c: Context) => {
   const contentType = c.req.header("Content-Type") || "";
@@ -22,13 +25,20 @@ export const queryUsersHandler = async (c: Context) => {
 
   const body = await c.req.text();
 
-  let bodyJson: RequestJson = {};
+  let bodyJson = {};
 
   try {
     bodyJson = JSON.parse(body);
   } catch (e) {
     console.error(e);
     return c.json({ error: "Invalid JSON" }, 400);
+  }
+
+  try {
+    RequestJsonSchema.parse(bodyJson);
+  } catch (e) {
+    console.error(e);
+    return c.json({ error: "Invalid request body" }, 400);
   }
 
   console.log(bodyJson);
