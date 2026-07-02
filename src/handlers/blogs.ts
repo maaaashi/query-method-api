@@ -19,10 +19,8 @@ export const queryBlogsHandlers = factory.createHandlers(
     }
   }),
   async (c) => {
-    const requestJson = c.req.valid("json");
+    const { query, limit } = c.req.valid("json");
 
-    return c.json(
-      allBlogs.search(requestJson.query).sortById().take(requestJson.limit),
-    );
+    return c.json(allBlogs.search(query).sortById().take(limit));
   },
 );
