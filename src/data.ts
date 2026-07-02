@@ -1,6 +1,6 @@
-import { Blog, type Blogs } from "./domains/blog";
+import { Blog, Blogs } from "./domains/blog";
 
-export const allBlogs: Blogs = [
+export const allBlogs = new Blogs([
   new Blog(1, "Clojure入門", "こんにちは。Clojureの世界へようこそ。"),
   new Blog(2, "TypeScriptの型システム", "TypeScriptの型システムは強力です。"),
   new Blog(
@@ -35,4 +35,4 @@ export const allBlogs: Blogs = [
     "Webセキュリティの基本",
     "Webアプリケーションのセキュリティは重要です。XSSやCSRFに注意しましょう。",
   ),
-];
+]);
