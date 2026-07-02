@@ -16,7 +16,7 @@ export class Blogs {
   }
 
   sortById(): Blogs {
-    return new Blogs(this.blogs.sort((a, b) => a.id - b.id));
+    return new Blogs([...this.blogs].sort((a, b) => a.id - b.id));
   }
 
   take(limit?: number): Blogs {
