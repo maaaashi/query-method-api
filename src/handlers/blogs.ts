@@ -13,6 +13,14 @@ const RequestJsonSchema = z
 const factory = createFactory();
 
 export const queryBlogsHandlers = factory.createHandlers(
+  async (c, next) => {
+    const contentType = c.req.header("content-type") || "";
+
+    if (contentType && !contentType.includes("application/json")) {
+      return c.json({ error: "Unsupported Media Type" }, 415);
+    }
+    await next();
+  },
   zValidator("json", RequestJsonSchema, (result, c) => {
     if (!result.success) {
       return c.json({ error: "Invalid request body" }, 400);
